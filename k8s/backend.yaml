@@ -1,0 +1,56 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+data:
+  APP_CONFIG: "This is config value"
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: app-secret
+stringData:
+  APP_SECRET: "super-secret"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+      - name: backend
+        image: backend:latest
+        ports:
+        - containerPort: 5000
+        env:
+          - name: APP_CONFIG
+            valueFrom:
+              configMapKeyRef:
+                name: app-config
+                key: APP_CONFIG
+          - name: APP_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: app-secret
+                key: APP_SECRET
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-service
+spec:
+  selector:
+    app: backend
+  ports:
+    - port: 5000
+      targetPort: 5000
