@@ -6,7 +6,7 @@
 <pre id="output"></pre>
 
 <script>
-fetch("/api")
+fetch("http://localhost:5000/api")
     .then(r => r.json())
     .then(data => document.getElementById("output").innerText = JSON.stringify(data, null, 2));
 </script>
