@@ -1,0 +1,14 @@
+<html>
+<body>
+<h1>Frontend</h1>
+<p>This is served from Nginx</p>
+<p>Backend response will appear below:</p>
+<pre id="output"></pre>
+
+<script>
+fetch("/api")
+    .then(r => r.json())
+    .then(data => document.getElementById("output").innerText = JSON.stringify(data, null, 2));
+</script>
+</body>
+</html>
