@@ -3,7 +3,7 @@ import os
 
 app = Flask(__name__)
 
-@app.route("/")
+@app.route("/api", strict_slashes=False)
 def hello():
     config_value = os.environ.get("APP_CONFIG", "no-config")
     secret_value = os.environ.get("APP_SECRET", "no-secret")
